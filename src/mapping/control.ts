@@ -1,3 +1,4 @@
+import { log } from "console";
 import { config, deviceConfig } from "/config";
 import { ControlSectionSurfaceElements } from "/device-configs";
 import { MainDevice } from "/devices";
@@ -14,7 +15,7 @@ function setShiftableButtonsLedValues(
     buttons.edit,
     buttons.project.left,
     buttons.project.right,
-    buttons.utility.soloDefeat,
+    buttons.utility.solo,
     buttons.transport.left,
     buttons.transport.right,
     buttons.transport.rewind,
@@ -28,7 +29,7 @@ function setShiftableButtonsLedValues(
 export function bindMouseValueControl(page: MR_FactoryMappingPage, device: MainDevice) {
   const button = deviceConfig.getMouseValueModeButton
     ? deviceConfig.getMouseValueModeButton(device)
-    : device.controlSectionElements.buttons.automation.sends;
+    : device.controlSectionElements.buttons.utility.drop;
 
   const subPageArea = page.makeSubPageArea("Cursor Value Control");
   const inactiveSubpage = subPageArea.makeSubPage("Cursor Value Control Inactive");
@@ -241,20 +242,7 @@ export function bindControlSection(
     buttons.automation.motor.setLedValue(context, +value);
   });
 */
-  // Instrument
-  page.makeCommandBinding(
-    buttons.utility.instrument.mSurfaceValue,
-    "MixConsole History",
-    "Undo MixConsole Step",
-  );
 
-  // Main
-  page.makeCommandBinding(
-    buttons.utility.main.mSurfaceValue,
-    "MixConsole History",
-    "Redo MixConsole Step",
-  );
-  
   // Marker
   page
     .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Next Marker')
@@ -270,14 +258,12 @@ export function bindControlSection(
   page
     .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Metronome On')
     .setSubPage(regularSubPage)
-    .setTypeToggle();
   page
     .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Precount On')
     .setSubPage(shiftSubPage)
-    .setTypeToggle();
   
   // Drop
-  page.makeCommandBinding(buttons.utility.drop.mSurfaceValue, '', '');
+  // page.makeCommandBinding(buttons.utility.drop.mSurfaceValue, '', '');
   
   // Replace
   page.makeCommandBinding(buttons.utility.replace.mSurfaceValue,'', '');
