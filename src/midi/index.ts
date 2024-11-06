@@ -224,10 +224,10 @@ function bindControlSectionElements(device: MainDevice, globalState: GlobalState
 
   for (const [index, button] of [
     buttons.encoderAssign.track,
-    buttons.encoderAssign.send,
     buttons.encoderAssign.pan,
-    buttons.encoderAssign.plugin,
     buttons.encoderAssign.eq,
+    buttons.encoderAssign.send,
+    buttons.encoderAssign.plugin,
     buttons.encoderAssign.instrument,
 
     buttons.navigation.bank.left,
@@ -243,21 +243,21 @@ function bindControlSectionElements(device: MainDevice, globalState: GlobalState
     ...buttons.function,
     ...buttons.number,
 
-    buttons.modify.undo,
-    buttons.modify.redo,
-    buttons.modify.save,
-    buttons.modify.revert,
+    buttons.project.left,
+    buttons.project.right,
+    buttons.project.mode,
+    buttons.project.revert,
 
+    buttons.automation.group,
     buttons.automation.read,
     buttons.automation.write,
-    buttons.automation.sends,
-    buttons.automation.project,
-    buttons.automation.mixer,
-    buttons.automation.motor,
+    buttons.automation.touch,
+    buttons.automation.latch,
+    buttons.automation.trim,
 
-    buttons.utility.instrument,
-    buttons.utility.main,
-    buttons.utility.soloDefeat,
+    buttons.utility.marker,
+    buttons.utility.nudge,
+    buttons.utility.click,
     buttons.utility.shift,
 
     buttons.transport.left,
@@ -265,11 +265,11 @@ function bindControlSectionElements(device: MainDevice, globalState: GlobalState
     buttons.transport.cycle,
     buttons.transport.punch,
 
-    buttons.transport.markers.previous,
-    buttons.transport.markers.add,
-    buttons.transport.markers.next,
+    buttons.utility.drop,
+    buttons.utility.replace,
+    buttons.utility.solo,
 
-    buttons.transport.rewind,
+    buttons.transport.rewind, 
     buttons.transport.forward,
     buttons.transport.stop,
     buttons.transport.play,

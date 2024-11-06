@@ -81,25 +81,28 @@ export interface PartialControlSectionButtons {
   number?: LedButton[];
   function?: LedButton[];
 
-  modify?: {
-    undo?: LedButton;
-    redo?: LedButton;
-    save?: LedButton;
+  project?: {
+    left?: LedButton;
+    right?: LedButton;
+    mode?: LedButton;
     revert?: LedButton;
   };
   automation?: {
+    group?: LedButton;
     read?: LedButton;
     write?: LedButton;
-    sends?: LedButton;
-    project?: LedButton;
-    mixer?: LedButton;
-    motor?: LedButton;
+    touch?: LedButton;
+    latch?: LedButton;
+    trim?: LedButton;
   };
   utility?: {
-    instrument?: LedButton;
-    main?: LedButton;
-    soloDefeat?: LedButton;
+    marker?: LedButton;
+    nudge?: LedButton;
+    click?: LedButton;
     shift?: LedButton;
+    drop?: LedButton;
+    replace?: LedButton;
+    solo?: LedButton;
   };
 
   transport?: {
@@ -107,12 +110,6 @@ export interface PartialControlSectionButtons {
     right?: LedButton;
     cycle?: LedButton;
     punch?: LedButton;
-
-    markers?: {
-      previous?: LedButton;
-      add?: LedButton;
-      next?: LedButton;
-    };
 
     rewind?: LedButton;
     forward?: LedButton;

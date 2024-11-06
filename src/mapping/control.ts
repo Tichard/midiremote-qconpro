@@ -12,8 +12,8 @@ function setShiftableButtonsLedValues(
 
   for (const button of [
     buttons.edit,
-    buttons.modify.undo,
-    buttons.modify.save,
+    buttons.project.left,
+    buttons.project.right,
     buttons.utility.soloDefeat,
     buttons.transport.left,
     buttons.transport.right,
@@ -121,40 +121,39 @@ export function bindControlSection(
   page
     .makeCommandBinding(
       controlSectionElements.buttons.timeMode.mSurfaceValue,
-      "Transport",
-      "Exchange Time Formats",
+      'Transport', 'Exchange Time Formats',
     )
     .setSubPage(config.toggleMeteringModeWithoutShift ? shiftSubPage : regularSubPage);
 
-  if (DEVICE_NAME === "MCU Pro") {
-    // LCD metering is only supported by the original MCU
-    page
-      .makeValueBinding(
-        controlSectionElements.buttons.timeMode.mSurfaceValue,
-        page.mCustom.makeHostValueVariable("Metering Mode"),
-      )
-      .setSubPage(
-        config.toggleMeteringModeWithoutShift ? regularSubPage : shiftSubPage,
-      ).mOnValueChange = (context, mapping, value) => {
-      if (value === 1) {
-        const areMetersEnabled = globalState.areChannelMetersEnabled;
-        const isMeterModeVertical = globalState.isGlobalLcdMeterModeVertical;
-
-        // Toggle between no LCD metering, vertical, and horizontal mode
-        if (!areMetersEnabled.get(context)) {
-          areMetersEnabled.set(context, true);
-          isMeterModeVertical.set(context, true);
-        } else {
-          if (isMeterModeVertical.get(context)) {
-            isMeterModeVertical.set(context, false);
-          } else {
-            areMetersEnabled.set(context, false);
+    if (DEVICE_NAME === "MCU Pro") {
+      // LCD metering is only supported by the original MCU
+      page
+        .makeValueBinding(
+          controlSectionElements.buttons.timeMode.mSurfaceValue,
+          page.mCustom.makeHostValueVariable("Metering Mode"),
+        )
+        .setSubPage(
+          config.toggleMeteringModeWithoutShift ? regularSubPage : shiftSubPage,
+        ).mOnValueChange = (context, mapping, value) => {
+        if (value === 1) {
+          const areMetersEnabled = globalState.areChannelMetersEnabled;
+          const isMeterModeVertical = globalState.isGlobalLcdMeterModeVertical;
+  
+          // Toggle between no LCD metering, vertical, and horizontal mode
+          if (!areMetersEnabled.get(context)) {
+            areMetersEnabled.set(context, true);
             isMeterModeVertical.set(context, true);
+          } else {
+            if (isMeterModeVertical.get(context)) {
+              isMeterModeVertical.set(context, false);
+            } else {
+              areMetersEnabled.set(context, false);
+              isMeterModeVertical.set(context, true);
+            }
           }
         }
-      }
-    };
-  }
+      };
+    }
 
   // 1-8
   for (const [buttonIndex, button] of buttons.number.entries()) {
@@ -167,33 +166,36 @@ export function bindControlSection(
 
   // Edit
   page
-    .makeCommandBinding(buttons.edit.mSurfaceValue, "Edit", "Edit Channel Settings")
+    .makeCommandBinding(buttons.edit.mSurfaceValue, 'Edit', 'Edit Channel Settings')
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.edit.mSurfaceValue, "Windows", "Close All Plug-in Windows")
+    .makeCommandBinding(buttons.edit.mSurfaceValue, 'Windows', 'Close All Plug-in Windows')
     .setSubPage(shiftSubPage);
 
   // Undo
   page
-    .makeCommandBinding(buttons.modify.undo.mSurfaceValue, "Edit", "Undo")
+    .makeCommandBinding(buttons.project.left.mSurfaceValue, 'Edit', 'Undo')
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.modify.undo.mSurfaceValue, "Edit", "History")
+    .makeCommandBinding(buttons.project.left.mSurfaceValue, 'Edit', 'History')
     .setSubPage(shiftSubPage);
 
   // Redo
-  page.makeCommandBinding(buttons.modify.redo.mSurfaceValue, "Edit", "Redo");
+  page.makeCommandBinding(buttons.project.right.mSurfaceValue, 'Edit', 'Redo');
 
   // Save
   page
-    .makeCommandBinding(buttons.modify.save.mSurfaceValue, "File", "Save")
+    .makeCommandBinding(buttons.project.mode.mSurfaceValue, 'File', 'Export Audio Mixdown')
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.modify.save.mSurfaceValue, "File", "Save New Version")
+    .makeCommandBinding(buttons.project.mode.mSurfaceValue, 'File', 'Save New Version')
     .setSubPage(shiftSubPage);
-
+    
   // Revert
-  page.makeCommandBinding(buttons.modify.revert.mSurfaceValue, "File", "Revert");
+  page.makeCommandBinding(buttons.project.revert.mSurfaceValue, "File", "Revert");
+
+  // Group
+  page.makeCommandBinding(buttons.automation.group.mSurfaceValue, 'Edit', 'Group');
 
   // Read/Off
   page
@@ -211,12 +213,21 @@ export function bindControlSection(
     )
     .setTypeToggle();
 
-  // Project
-  page.makeCommandBinding(buttons.automation.project.mSurfaceValue, "Project", "Bring To Front");
+  // touch
+  page
+    .makeCommandBinding(buttons.automation.touch.mSurfaceValue, 'Edit', 'Edit Channel Settings')
+    .setSubPage(regularSubPage);
+  page
+    .makeCommandBinding(buttons.automation.touch.mSurfaceValue, 'Edit', 'Edit VST Instrument')
+    .setSubPage(shiftSubPage);
 
-  // Mixer
-  page.makeCommandBinding(buttons.automation.mixer.mSurfaceValue, "Devices", "Mixer");
+  // Latch
+  page.makeCommandBinding(buttons.automation.latch.mSurfaceValue, 'Automation', 'Automation Mode - Auto-Latch');
 
+  // Trim
+  page.makeCommandBinding(buttons.automation.trim.mSurfaceValue, 'Automation', 'Automation Mode - Trim');
+
+/*
   // Motor
   page.makeValueBinding(
     buttons.automation.motor.mSurfaceValue,
@@ -229,7 +240,7 @@ export function bindControlSection(
   globalState.areMotorsActive.addOnChangeCallback((context, value) => {
     buttons.automation.motor.setLedValue(context, +value);
   });
-
+*/
   // Instrument
   page.makeCommandBinding(
     buttons.utility.instrument.mSurfaceValue,
@@ -243,13 +254,40 @@ export function bindControlSection(
     "MixConsole History",
     "Redo MixConsole Step",
   );
-
-  // Solo Defeat
+  
+  // Marker
   page
-    .makeCommandBinding(buttons.utility.soloDefeat.mSurfaceValue, "Edit", "Deactivate All Solo")
+    .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Next Marker')
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.utility.soloDefeat.mSurfaceValue, "Edit", "Unmute All")
+    .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Previous Marker')
+    .setSubPage(shiftSubPage);
+  
+  // Nudge
+  page.makeCommandBinding(buttons.utility.nudge.mSurfaceValue, '', '');
+  
+  // Click
+  page
+    .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Metronome On')
+    .setSubPage(regularSubPage)
+    .setTypeToggle();
+  page
+    .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Precount On')
+    .setSubPage(shiftSubPage)
+    .setTypeToggle();
+  
+  // Drop
+  page.makeCommandBinding(buttons.utility.drop.mSurfaceValue, '', '');
+  
+  // Replace
+  page.makeCommandBinding(buttons.utility.replace.mSurfaceValue,'', '');
+
+  // Solo
+  page
+    .makeCommandBinding(buttons.utility.solo.mSurfaceValue, 'Edit', 'Deactivate All Solo')
+    .setSubPage(regularSubPage);
+  page
+    .makeCommandBinding(buttons.utility.solo.mSurfaceValue, 'Edit', 'Unmute All')
     .setSubPage(shiftSubPage);
 
   // Transport buttons
@@ -272,23 +310,8 @@ export function bindControlSection(
   page
     .makeValueBinding(buttons.transport.cycle.mSurfaceValue, mTransport.mValue.mCycleActive)
     .setTypeToggle();
-  page.makeCommandBinding(buttons.transport.punch.mSurfaceValue, "Transport", "Auto Punch In");
 
-  page.makeCommandBinding(
-    buttons.transport.markers.previous.mSurfaceValue,
-    "Transport",
-    "Locate Previous Marker",
-  );
-  page.makeCommandBinding(
-    buttons.transport.markers.add.mSurfaceValue,
-    "Transport",
-    "Insert Marker",
-  );
-  page.makeCommandBinding(
-    buttons.transport.markers.next.mSurfaceValue,
-    "Transport",
-    "Locate Next Marker",
-  );
+  page.makeCommandBinding(buttons.transport.punch.mSurfaceValue, "Transport", "Auto Punch In");
 
   page
     .makeValueBinding(buttons.transport.rewind.mSurfaceValue, mTransport.mValue.mRewind)

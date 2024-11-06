@@ -59,25 +59,28 @@ export class MainDevice extends Device {
         number: () => createElements(8, () => new LedButton(surface)),
         function: () => createElements(8, () => new LedButton(surface)),
 
-        modify: {
-          undo: makeButton,
-          redo: makeButton,
-          save: makeButton,
+        project: {
+          left: makeButton,
+          right: makeButton,
+          mode: makeButton,
           revert: makeButton,
         },
         automation: {
+          group: makeButton,
           read: makeButton,
           write: makeButton,
-          sends: makeButton,
-          project: makeButton,
-          mixer: makeButton,
-          motor: makeButton,
+          touch: makeButton,
+          latch: makeButton,
+          trim: makeButton,
         },
         utility: {
-          instrument: makeButton,
-          main: makeButton,
-          soloDefeat: makeButton,
+          marker: makeButton,
+          nudge: makeButton,
+          click: makeButton,
           shift: makeButton,
+          drop: makeButton,
+          replace: makeButton,
+          solo: makeButton,
         },
 
         transport: {
@@ -85,13 +88,6 @@ export class MainDevice extends Device {
           right: makeButton,
           cycle: makeButton,
           punch: makeButton,
-
-          markers: {
-            previous: makeButton,
-            add: makeButton,
-            next: makeButton,
-          },
-
           rewind: makeButton,
           forward: makeButton,
           stop: makeButton,
