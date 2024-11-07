@@ -132,43 +132,10 @@ export class ChannelTextManager {
     );
     globalState.areDisplayRowsFlipped.addOnChangeCallback(this.updateNameValueDisplay.bind(this));
     globalState.areDisplayRowsFlipped.addOnChangeCallback(this.updateTrackTitleDisplay.bind(this));
-
-    if (DEVICE_NAME === "MCU Pro") {
-      // Handle metering mode changes
-      globalState.isGlobalLcdMeterModeVertical.addOnChangeCallback(
-        (context, isMeterModeVertical) => {
-          // Update the upper display row before leaving vertical metering mode
-          if (!isMeterModeVertical) {
-            (globalState.areDisplayRowsFlipped.get(context)
-              ? this.updateTrackTitleDisplay.bind(this)
-              : this.updateNameValueDisplay.bind(this))(context);
-          }
-        },
-      );
-
-      globalState.areChannelMetersEnabled.addOnChangeCallback((context, areMetersEnabled) => {
-        // Update the lower display row after disabling channel meters
-        if (!areMetersEnabled) {
-          (globalState.areDisplayRowsFlipped.get(context)
-            ? this.updateNameValueDisplay.bind(this)
-            : this.updateTrackTitleDisplay.bind(this))(context);
-        }
-      });
-    }
   }
 
   private updateNameValueDisplay(context: MR_ActiveDevice) {
     const row = +this.globalState.areDisplayRowsFlipped.get(context);
-
-    // Skip updating the lower display row on MCU Pro when horizontal metering mode is enabled
-    if (
-      DEVICE_NAME === "MCU Pro" &&
-      row === 1 &&
-      this.globalState.areChannelMetersEnabled.get(context) &&
-      !this.globalState.isGlobalLcdMeterModeVertical.get(context)
-    ) {
-      return;
-    }
 
     this.sendText(
       context,
@@ -182,16 +149,6 @@ export class ChannelTextManager {
 
   private updateTrackTitleDisplay(context: MR_ActiveDevice) {
     const row = 1 - +this.globalState.areDisplayRowsFlipped.get(context);
-
-    // Skip updating the lower display row on MCU Pro when horizontal metering mode is enabled
-    if (
-      DEVICE_NAME === "MCU Pro" &&
-      row === 1 &&
-      this.globalState.areChannelMetersEnabled.get(context) &&
-      !this.globalState.isGlobalLcdMeterModeVertical.get(context)
-    ) {
-      return;
-    }
 
     this.sendText(context, row, this.channelName.get(context));
   }

@@ -53,13 +53,6 @@ var CONFIGURATION = {
   enableAutoSelect: true,
 
   /**
-   * If you don't use the Control Room or your version of Cubase doesn't have it, you'll likely want
-   * the main fader to control the first output channel like in the default Mackie Control mapping.
-   * You can achieve this by replacing `true` with `false` below.
-   */
-  mapMainFaderToControlRoom: false,
-
-  /**
    * In old Cubase versions, pushing an encoder in the PAN encoder assignment used to reset the
    * panner to "center" instead of toggling "Monitor Active". By default, this script restores this
    * behavior, i.e. pressing push encoders resets channel panners.
@@ -111,12 +104,4 @@ var CONFIGURATION = {
    */
   displayColorMode: "encoders",
 
-  /**
-   * If you are frequently using display metering on your MCU, you can set this option to `true` to
-   * make the SMPTE/Beats button toggle metering modes by default and switch between time formats
-   * only when the Shift button is held.
-   *
-   * @devices MCU Pro
-   */
-  toggleMeteringModeWithoutShift: false,
 };

@@ -73,12 +73,10 @@ export function makeHostMapping(
       // Main fader
       page.makeValueBinding(
         controlSectionElements.mainFader.mSurfaceValue,
-        config.mapMainFaderToControlRoom
-          ? page.mHostAccess.mControlRoom.mMainChannel.mLevelValue
-          : page.mHostAccess.mMixConsole
-              .makeMixerBankZone()
-              .includeOutputChannels()
-              .makeMixerBankChannel().mValue.mVolume,
+        page.mHostAccess.mMixConsole
+          .makeMixerBankZone()
+          .includeOutputChannels()
+          .makeMixerBankChannel().mValue.mVolume,
       );
 
       // Display buttons, 1-8, Modify, Automation, Utility, Transport, Navigation, Jog wheel

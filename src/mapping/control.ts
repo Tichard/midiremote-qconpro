@@ -126,37 +126,6 @@ export function bindControlSection(
       controlSectionElements.buttons.timeMode.mSurfaceValue,
       'Transport', 'Exchange Time Formats',
     )
-    .setSubPage(config.toggleMeteringModeWithoutShift ? shiftSubPage : regularSubPage);
-
-    if (DEVICE_NAME === "MCU Pro") {
-      // LCD metering is only supported by the original MCU
-      page
-        .makeValueBinding(
-          controlSectionElements.buttons.timeMode.mSurfaceValue,
-          page.mCustom.makeHostValueVariable("Metering Mode"),
-        )
-        .setSubPage(
-          config.toggleMeteringModeWithoutShift ? regularSubPage : shiftSubPage,
-        ).mOnValueChange = (context, mapping, value) => {
-        if (value === 1) {
-          const areMetersEnabled = globalState.areChannelMetersEnabled;
-          const isMeterModeVertical = globalState.isGlobalLcdMeterModeVertical;
-  
-          // Toggle between no LCD metering, vertical, and horizontal mode
-          if (!areMetersEnabled.get(context)) {
-            areMetersEnabled.set(context, true);
-            isMeterModeVertical.set(context, true);
-          } else {
-            if (isMeterModeVertical.get(context)) {
-              isMeterModeVertical.set(context, false);
-            } else {
-              areMetersEnabled.set(context, false);
-              isMeterModeVertical.set(context, true);
-            }
-          }
-        }
-      };
-    }
 
   // 1-8
   for (const [buttonIndex, button] of buttons.number.entries()) {

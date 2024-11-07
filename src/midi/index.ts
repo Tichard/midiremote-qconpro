@@ -161,10 +161,6 @@ function bindChannelElements(device: Device, globalState: GlobalState) {
     channel.scribbleStrip.trackTitle.mOnTitleChange = (context, title, title2) => {
       channelTextManager.setChannelName(context, title);
 
-      if (DEVICE_NAME === "MCU Pro") {
-        clearOverload(context);
-      }
-
       // Reset the VU meter when the channels becomes unassigned (there's no way to reliably detect
       // this just using `channel.vuMeter`).
       setIsMeterUnassigned(context, title2 === "");
