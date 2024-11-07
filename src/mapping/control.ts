@@ -13,10 +13,12 @@ function setShiftableButtonsLedValues(
 
   // List of button that have a shift function
   for (const button of [
+    ...buttons.function,
     buttons.automation.touch,
     buttons.utility.marker,
     buttons.utility.click,
     buttons.utility.solo,
+    buttons.utility.replace,
     buttons.transport.rewind,
     buttons.transport.forward,
     buttons.navigation.bank.left,
@@ -28,7 +30,7 @@ function setShiftableButtonsLedValues(
 export function bindMouseValueControl(page: MR_FactoryMappingPage, device: MainDevice) {
   const button = deviceConfig.getMouseValueModeButton
     ? deviceConfig.getMouseValueModeButton(device)
-    : device.controlSectionElements.buttons.utility.drop;
+    : device.controlSectionElements.buttons.utility.nudge;
 
   const subPageArea = page.makeSubPageArea("Cursor Value Control");
   const inactiveSubpage = subPageArea.makeSubPage("Cursor Value Control Inactive");
@@ -127,11 +129,23 @@ export function bindControlSection(
       'Transport', 'Exchange Time Formats',
     )
 
+  // Function
+  for (const [buttonIndex, button] of buttons.function.entries()) {
+    page
+      .makeCommandBinding(button.mSurfaceValue,
+        'Transport', `To Marker ${buttonIndex + 1}`,
+      ).setSubPage(regularSubPage);
+    page
+      .makeCommandBinding(button.mSurfaceValue,
+        'Transport', `Set Marker ${buttonIndex + 1}`,
+      ).setSubPage(shiftSubPage);
+  }
+
   // 1-8
   for (const [buttonIndex, button] of buttons.number.entries()) {
     page.makeCommandBinding(
       button.mSurfaceValue,
-      "Channel & Track Visibility",
+      'Channel & Track Visibility',
       `Channel and Rack Configuration ${buttonIndex + 1}`,
     );
   }
@@ -191,10 +205,10 @@ export function bindControlSection(
   page
     .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Previous Marker')
     .setSubPage(shiftSubPage);
-  
-  // Nudge
-  page.makeCommandBinding(buttons.utility.nudge.mSurfaceValue, '', '');
-  
+
+  // Nudge -> Used for Mouse JogWheel
+  // page.makeCommandBinding(buttons.utility.nudge.mSurfaceValue, '', '');
+
   // Click
   page
     .makeValueBinding(buttons.utility.click.mSurfaceValue, mTransport.mValue.mMetronomeActive )
@@ -203,12 +217,17 @@ export function bindControlSection(
   page
     .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Precount On')
     .setSubPage(shiftSubPage)
-  
+
   // Drop
-  // page.makeCommandBinding(buttons.utility.drop.mSurfaceValue, '', '');
+  page.makeCommandBinding(buttons.utility.drop.mSurfaceValue,'File', 'Export Audio Mixdown');
   
   // Replace
-  page.makeCommandBinding(buttons.utility.replace.mSurfaceValue,'', '');
+  page
+    .makeCommandBinding(buttons.utility.replace.mSurfaceValue, 'File', 'Save')
+    .setSubPage(regularSubPage);
+  page
+    .makeCommandBinding(buttons.utility.replace.mSurfaceValue, 'File', 'Save New Version')
+    .setSubPage(shiftSubPage);
 
   // Solo
   page
@@ -218,30 +237,38 @@ export function bindControlSection(
     .makeCommandBinding(buttons.utility.solo.mSurfaceValue, 'Edit', 'Unmute All')
     .setSubPage(shiftSubPage);
 
+  // Cycle
   page
     .makeValueBinding(buttons.transport.cycle.mSurfaceValue, mTransport.mValue.mCycleActive)
     .setTypeToggle();
 
+  // Rewind
   page
     .makeValueBinding(buttons.transport.rewind.mSurfaceValue, mTransport.mValue.mRewind)
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.transport.rewind.mSurfaceValue, "Transport", "Return to Zero")
+    .makeCommandBinding(buttons.transport.rewind.mSurfaceValue, 'Transport', 'Return to Zero')
     .setSubPage(shiftSubPage);
 
+  // Forward
   page
     .makeValueBinding(buttons.transport.forward.mSurfaceValue, mTransport.mValue.mForward)
     .setSubPage(regularSubPage);
   page
-    .makeCommandBinding(buttons.transport.forward.mSurfaceValue, "Transport", "Goto End")
+    .makeCommandBinding(buttons.transport.forward.mSurfaceValue, 'Transport', 'Goto End')
     .setSubPage(shiftSubPage);
 
+  // Stop
   page
     .makeValueBinding(buttons.transport.stop.mSurfaceValue, mTransport.mValue.mStop)
     .setTypeToggle();
+
+  // Play
   page
     .makeValueBinding(buttons.transport.play.mSurfaceValue, mTransport.mValue.mStart)
     .setTypeToggle();
+
+  // Record
   page
     .makeValueBinding(buttons.transport.record.mSurfaceValue, mTransport.mValue.mRecord)
     .setTypeToggle();
@@ -276,15 +303,15 @@ export function bindControlSection(
   };
 
   const { mJogLeftValue: jogLeft, mJogRightValue: jogRight } = controlSectionElements.jogWheel;
-  page.makeCommandBinding(jogLeft, "Transport", "Jog Left").setSubPage(jogSubPage);
-  page.makeCommandBinding(jogRight, "Transport", "Jog Right").setSubPage(jogSubPage);
-  page.makeCommandBinding(jogLeft, "Transport", "Nudge Cursor Left").setSubPage(scrubSubPage);
-  page.makeCommandBinding(jogRight, "Transport", "Nudge Cursor Right").setSubPage(scrubSubPage);
+  page.makeCommandBinding(jogLeft, 'Transport', 'Jog Left').setSubPage(jogSubPage);
+  page.makeCommandBinding(jogRight, 'Transport', 'Jog Right').setSubPage(jogSubPage);
+  page.makeCommandBinding(jogLeft, 'Transport', 'Nudge Cursor Left').setSubPage(scrubSubPage);
+  page.makeCommandBinding(jogRight, 'Transport', 'Nudge Cursor Right').setSubPage(scrubSubPage);
 
   // Direction buttons
   const subPageArea = page.makeSubPageArea("Direction Buttons");
-  const navigateSubPage = subPageArea.makeSubPage("Navigate");
-  const zoomSubPage = subPageArea.makeSubPage("Zoom");
+  const navigateSubPage = subPageArea.makeSubPage('Navigate');
+  const zoomSubPage = subPageArea.makeSubPage('Zoom');
 
   zoomSubPage.mOnActivate = (context) => {
     buttons.navigation.directions.center.setLedValue(context, 1);
@@ -295,36 +322,36 @@ export function bindControlSection(
 
   const directions = buttons.navigation.directions;
   page
-    .makeCommandBinding(directions.up.mSurfaceValue, "Navigate", "Up")
+    .makeCommandBinding(directions.up.mSurfaceValue, 'Navigate', 'Up')
     .setSubPage(navigateSubPage);
   page
-    .makeCommandBinding(directions.up.mSurfaceValue, "Zoom", "Zoom Out Vertically")
+    .makeCommandBinding(directions.up.mSurfaceValue, 'Zoom', 'Zoom Out Vertically')
     .setSubPage(zoomSubPage);
 
   page
-    .makeCommandBinding(directions.down.mSurfaceValue, "Navigate", "Down")
+    .makeCommandBinding(directions.down.mSurfaceValue, 'Navigate', 'Down')
     .setSubPage(navigateSubPage);
   page
-    .makeCommandBinding(directions.down.mSurfaceValue, "Zoom", "Zoom In Vertically")
+    .makeCommandBinding(directions.down.mSurfaceValue, 'Zoom', 'Zoom In Vertically')
     .setSubPage(zoomSubPage);
 
   page
-    .makeCommandBinding(directions.left.mSurfaceValue, "Navigate", "Left")
+    .makeCommandBinding(directions.left.mSurfaceValue, 'Navigate', 'Left')
     .setSubPage(navigateSubPage);
   page
-    .makeCommandBinding(directions.left.mSurfaceValue, "Zoom", "Zoom Out")
+    .makeCommandBinding(directions.left.mSurfaceValue, 'Zoom', 'Zoom Out')
     .setSubPage(zoomSubPage);
 
   page
-    .makeCommandBinding(directions.right.mSurfaceValue, "Navigate", "Right")
+    .makeCommandBinding(directions.right.mSurfaceValue, 'Navigate', 'Right')
     .setSubPage(navigateSubPage);
   page
-    .makeCommandBinding(directions.right.mSurfaceValue, "Zoom", "Zoom In")
+    .makeCommandBinding(directions.right.mSurfaceValue, 'Zoom', 'Zoom In')
     .setSubPage(zoomSubPage);
 
   // Use the zoom subpage to make the jog wheel zoom too
-  // page.makeCommandBinding(jogLeft, "Zoom", "Zoom Out").setSubPage(zoomSubPage);
-  // page.makeCommandBinding(jogRight, "Zoom", "Zoom In").setSubPage(zoomSubPage);
+  // page.makeCommandBinding(jogLeft, 'Zoom', "Zoom Out").setSubPage(zoomSubPage);
+  // page.makeCommandBinding(jogRight, 'Zoom', "Zoom In").setSubPage(zoomSubPage);
 
   page.makeActionBinding(directions.center.mSurfaceValue, subPageArea.mAction.mNext);
 

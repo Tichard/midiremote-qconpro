@@ -48,25 +48,34 @@ export function bindEncoders(
     // EQ
     {
       activatorButtonSelector: (device) => selectAssignButtons(device).eq,
-      pages: [pageConfigs.eq(hostAccess)],
+      pages: [
+        pageConfigs.eq(hostAccess),
+      ],
     },
 
     // Send
     {
       activatorButtonSelector: (device) => selectAssignButtons(device).send,
-      pages: [pageConfigs.sends(hostAccess)],
+      pages: [
+        pageConfigs.sends(hostAccess),
+      ],
     },
 
     // Plug-In
     {
       activatorButtonSelector: (device) => selectAssignButtons(device).plugin,
-      pages: [pageConfigs.focusedInsertEffect(hostAccess)],
+      pages: [
+        pageConfigs.focusedInsertEffect(hostAccess),
+      ],
     },
 
     // Instrument
     {
       activatorButtonSelector: (device) => selectAssignButtons(device).instrument,
-      pages: [pageConfigs.vstQuickControls(hostAccess), pageConfigs.stripEffects(hostAccess)],
+      pages: [
+        // pageConfigs.vstQuickControls(hostAccess), 
+        pageConfigs.stripEffects(hostAccess),
+      ],
     },
   ];
 
