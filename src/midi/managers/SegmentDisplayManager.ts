@@ -19,7 +19,7 @@ export class SegmentDisplayManager {
     if (value !== this.segmentValues[segmentId].get(context)) {
       this.segmentValues[segmentId].set(context, value);
       for (const device of this.devices) {
-        device.ports.output.sendMidi(context, [0xb0, 0x40 + segmentId, value]);
+        device.ports.output.sendMidi(context, [0xbf, 0x40 + segmentId, value]);
       }
     }
   }
