@@ -84,6 +84,9 @@ export function bindControlSection(
   const regularSubPage = buttonsSubPageArea.makeSubPage("Regular");
   const shiftSubPage = buttonsSubPageArea.makeSubPage("Shift");
 
+  // Transport buttons
+  const mTransport = host.mTransport;
+
   globalState.isShiftModeActive.addOnChangeCallback((context, value, mapping) => {
     (value ? shiftSubPage : regularSubPage).mAction.mActivate.trigger(mapping!);
     setShiftableButtonsLedValues(controlSectionElements, context, +value);
@@ -225,8 +228,9 @@ export function bindControlSection(
   
   // Click
   page
-    .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Metronome On')
+    .makeValueBinding(buttons.utility.click.mSurfaceValue, mTransport.mValue.mMetronomeActive )
     .setSubPage(regularSubPage)
+    .setTypeToggle();
   page
     .makeCommandBinding(buttons.utility.click.mSurfaceValue, 'Transport', 'Precount On')
     .setSubPage(shiftSubPage)
