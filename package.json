@@ -7,7 +7,8 @@
     "start": "tsup --watch",
     "tsc": "tsc",
     "postversion": "npm run build",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "install": "npm run build & .\\install"
   },
   "author": "bjoluc",
   "license": "MIT",
