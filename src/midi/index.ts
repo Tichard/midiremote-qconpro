@@ -223,63 +223,62 @@ function bindControlSectionElements(device: MainDevice, globalState: GlobalState
   elements.mainFader.bindToMidi(ports, 8, globalState);
 
   for (const [index, button] of [
-    buttons.encoderAssign.track,
-    buttons.encoderAssign.pan,
-    buttons.encoderAssign.eq,
-    buttons.encoderAssign.send,
-    buttons.encoderAssign.plugin,
-    buttons.encoderAssign.instrument,
+    buttons.encoderAssign.instrument, // 40
+    buttons.automation.trim, // 41
+    buttons.encoderAssign.track, // 42
+    buttons.encoderAssign.eq, // 43
+    buttons.encoderAssign.pan, // 44
+    buttons.encoderAssign.plugin, // 45
 
-    buttons.navigation.bank.left,
-    buttons.navigation.bank.right,
-    buttons.navigation.channel.left,
-    buttons.navigation.channel.right,
+    buttons.navigation.bank.left, // 46
+    buttons.navigation.bank.right, // 47
+    buttons.navigation.channel.left, // 48
+    buttons.navigation.channel.right, // 49
 
-    buttons.flip,
-    buttons.edit,
-    buttons.display,
-    buttons.timeMode,
+    buttons.flip, // 50
+    buttons.automation.read, // 51
+    buttons.display, // 52
+    buttons.timeMode, // 53
+    ...buttons.function, // 54 - 61
+    ...buttons.number, // 62 - 69
 
-    ...buttons.function,
-    ...buttons.number,
+    buttons.automation.latch, // 70
+    buttons.dummy, // 71
+    buttons.utility.marker, // 72
+    buttons.dummy, // 73
+    buttons.utility.nudge, // 74
+    buttons.utility.click, // 75
 
-    buttons.project.left,
-    buttons.project.right,
-    buttons.project.mode,
-    buttons.project.revert,
+    buttons.dummy, // 76
+    buttons.dummy, // 77
 
-    buttons.automation.group,
-    buttons.automation.read,
-    buttons.automation.write,
-    buttons.automation.touch,
-    buttons.automation.latch,
-    buttons.automation.trim,
+    buttons.automation.write, // 78
+    buttons.automation.group, // 79
+    buttons.automation.touch, // 80
+    buttons.encoderAssign.send, // 81
 
-    buttons.utility.marker,
-    buttons.utility.nudge,
-    buttons.utility.click,
-    buttons.utility.shift,
+    buttons.dummy, // 82
+    buttons.utility.shift, // 83
+    buttons.dummy, // 84
+    buttons.dummy, // 85
+    buttons.transport.cycle, // 86
+    buttons.dummy, //87
 
-    buttons.transport.left,
-    buttons.transport.right,
-    buttons.transport.cycle,
-    buttons.transport.punch,
+    buttons.utility.drop, // 88
+    buttons.utility.replace, // 89
+    buttons.utility.solo, // 90
 
-    buttons.utility.drop,
-    buttons.utility.replace,
-    buttons.utility.solo,
+    buttons.transport.rewind, // 91
+    buttons.transport.forward, // 92
+    buttons.transport.stop, // 93
+    buttons.transport.play, // 94
+    buttons.transport.record, // 95
 
-    buttons.transport.rewind, 
-    buttons.transport.forward,
-    buttons.transport.stop,
-    buttons.transport.play,
-    buttons.transport.record,
-
-    buttons.navigation.directions.up,
-    buttons.navigation.directions.down,
-    buttons.navigation.directions.left,
-    buttons.navigation.directions.right,
-    buttons.navigation.directions.center,
+    buttons.navigation.directions.up, // 96
+    buttons.navigation.directions.down, // 97
+    buttons.navigation.directions.left, // 98
+    buttons.navigation.directions.right, // 99
+    buttons.navigation.directions.center, // 100
 
     buttons.scrub,
   ].entries()) {

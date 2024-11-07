@@ -11,13 +11,12 @@ function setShiftableButtonsLedValues(
 ) {
   const buttons = controlSectionElements.buttons;
 
+  // List of button that have a shift function
   for (const button of [
-    buttons.edit,
-    buttons.project.left,
-    buttons.project.right,
+    buttons.automation.touch,
+    buttons.utility.marker,
+    buttons.utility.click,
     buttons.utility.solo,
-    buttons.transport.left,
-    buttons.transport.right,
     buttons.transport.rewind,
     buttons.transport.forward,
     buttons.navigation.bank.left,
@@ -165,36 +164,6 @@ export function bindControlSection(
     );
   }
 
-  // Edit
-  page
-    .makeCommandBinding(buttons.edit.mSurfaceValue, 'Edit', 'Edit Channel Settings')
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.edit.mSurfaceValue, 'Windows', 'Close All Plug-in Windows')
-    .setSubPage(shiftSubPage);
-
-  // Undo
-  page
-    .makeCommandBinding(buttons.project.left.mSurfaceValue, 'Edit', 'Undo')
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.project.left.mSurfaceValue, 'Edit', 'History')
-    .setSubPage(shiftSubPage);
-
-  // Redo
-  page.makeCommandBinding(buttons.project.right.mSurfaceValue, 'Edit', 'Redo');
-
-  // Save
-  page
-    .makeCommandBinding(buttons.project.mode.mSurfaceValue, 'File', 'Export Audio Mixdown')
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.project.mode.mSurfaceValue, 'File', 'Save New Version')
-    .setSubPage(shiftSubPage);
-    
-  // Revert
-  page.makeCommandBinding(buttons.project.revert.mSurfaceValue, "File", "Revert");
-
   // Group
   page.makeCommandBinding(buttons.automation.group.mSurfaceValue, 'Edit', 'Group');
 
@@ -276,28 +245,9 @@ export function bindControlSection(
     .makeCommandBinding(buttons.utility.solo.mSurfaceValue, 'Edit', 'Unmute All')
     .setSubPage(shiftSubPage);
 
-  // Transport buttons
-  const mTransport = host.mTransport;
-
-  page
-    .makeCommandBinding(buttons.transport.left.mSurfaceValue, "Transport", "To Left Locator")
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.transport.left.mSurfaceValue, "Transport", "Set Left Locator")
-    .setSubPage(shiftSubPage);
-
-  page
-    .makeCommandBinding(buttons.transport.right.mSurfaceValue, "Transport", "To Right Locator")
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.transport.right.mSurfaceValue, "Transport", "Set Right Locator")
-    .setSubPage(shiftSubPage);
-
   page
     .makeValueBinding(buttons.transport.cycle.mSurfaceValue, mTransport.mValue.mCycleActive)
     .setTypeToggle();
-
-  page.makeCommandBinding(buttons.transport.punch.mSurfaceValue, "Transport", "Auto Punch In");
 
   page
     .makeValueBinding(buttons.transport.rewind.mSurfaceValue, mTransport.mValue.mRewind)

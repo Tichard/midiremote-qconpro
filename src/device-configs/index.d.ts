@@ -63,11 +63,14 @@ export interface ChannelSurfaceElements {
 }
 
 export interface PartialControlSectionButtons {
+  dummy?: LedButton;
   display?: LedButton;
   timeMode?: LedButton;
-  edit?: LedButton;
   flip?: LedButton;
   scrub?: LedButton;
+
+  number?: LedButton[];
+  function?: LedButton[];
 
   encoderAssign?: {
     track?: LedButton;
@@ -78,15 +81,6 @@ export interface PartialControlSectionButtons {
     instrument?: LedButton;
   };
 
-  number?: LedButton[];
-  function?: LedButton[];
-
-  project?: {
-    left?: LedButton;
-    right?: LedButton;
-    mode?: LedButton;
-    revert?: LedButton;
-  };
   automation?: {
     group?: LedButton;
     read?: LedButton;
@@ -95,6 +89,7 @@ export interface PartialControlSectionButtons {
     latch?: LedButton;
     trim?: LedButton;
   };
+
   utility?: {
     marker?: LedButton;
     nudge?: LedButton;
@@ -106,11 +101,7 @@ export interface PartialControlSectionButtons {
   };
 
   transport?: {
-    left?: LedButton;
-    right?: LedButton;
     cycle?: LedButton;
-    punch?: LedButton;
-
     rewind?: LedButton;
     forward?: LedButton;
     stop?: LedButton;

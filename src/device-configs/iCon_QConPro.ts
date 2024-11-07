@@ -158,15 +158,8 @@ export const deviceConfig: DeviceConfig = {
         buttons: {
           display: upperControlButtons[0],
           timeMode: upperControlButtons[1],
-          edit: layer2FunctionButtons[7],
           flip: makeSquareButton(surface, x, 13 - buttonRowHeight),
           scrub: makeSquareButton(surface, x + 11.2, 28.75),
-
-          project: {
-            left: upperControlButtons[2],
-            right: upperControlButtons[3],
-            mode: upperControlButtons[4],
-          },
 
           number: layer2FunctionButtons.slice(0, 7).concat(new LedButton(surface)),
           function: createElements(8, (index) =>

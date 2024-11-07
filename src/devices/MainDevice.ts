@@ -41,11 +41,14 @@ export class MainDevice extends Device {
     const makeButton = () => new LedButton(surface);
     const defaultsFactory: ControlSectionSurfaceElementsDefaultsFactory = {
       buttons: {
+        dummy: makeButton,
         display: makeButton,
         timeMode: makeButton,
-        edit: makeButton,
         flip: makeButton,
         scrub: makeButton,
+
+        number: () => createElements(8, () => new LedButton(surface)),
+        function: () => createElements(8, () => new LedButton(surface)),
 
         encoderAssign: {
           track: makeButton,
@@ -56,15 +59,6 @@ export class MainDevice extends Device {
           instrument: makeButton,
         },
 
-        number: () => createElements(8, () => new LedButton(surface)),
-        function: () => createElements(8, () => new LedButton(surface)),
-
-        project: {
-          left: makeButton,
-          right: makeButton,
-          mode: makeButton,
-          revert: makeButton,
-        },
         automation: {
           group: makeButton,
           read: makeButton,
@@ -73,6 +67,7 @@ export class MainDevice extends Device {
           latch: makeButton,
           trim: makeButton,
         },
+
         utility: {
           marker: makeButton,
           nudge: makeButton,
@@ -84,10 +79,7 @@ export class MainDevice extends Device {
         },
 
         transport: {
-          left: makeButton,
-          right: makeButton,
           cycle: makeButton,
-          punch: makeButton,
           rewind: makeButton,
           forward: makeButton,
           stop: makeButton,
