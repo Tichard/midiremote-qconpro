@@ -57,7 +57,7 @@ var CONFIGURATION = {
    * the main fader to control the first output channel like in the default Mackie Control mapping.
    * You can achieve this by replacing `true` with `false` below.
    */
-  mapMainFaderToControlRoom: true,
+  mapMainFaderToControlRoom: false,
 
   /**
    * In old Cubase versions, pushing an encoder in the PAN encoder assignment used to reset the
