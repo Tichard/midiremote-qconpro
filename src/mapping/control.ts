@@ -91,7 +91,7 @@ export function bindControlSection(
 
   globalState.isShiftModeActive.addOnChangeCallback((context, value, mapping) => {
     (value ? shiftSubPage : regularSubPage).mAction.mActivate.trigger(mapping!);
-    setShiftableButtonsLedValues(controlSectionElements, context, +value);
+    // setShiftableButtonsLedValues(controlSectionElements, context, +value);
   });
 
   // Flip button
