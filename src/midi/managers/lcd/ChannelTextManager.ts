@@ -48,7 +48,6 @@ export class ChannelTextManager {
   }
 
   private static translateParameterName(parameterName: string) {
-    console.log(parameterName)
     return (
       {
         // English
