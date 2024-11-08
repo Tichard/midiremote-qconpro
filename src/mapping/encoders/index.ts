@@ -36,12 +36,12 @@ export function bindEncoders(
     {
       activatorButtonSelector: (device) => selectAssignButtons(device).track,
       pages: [
-        pageConfigs.monitor,
-        pageConfigs.inputGain,
-        pageConfigs.inputPhase,
+        // pageConfigs.monitor,
         pageConfigs.lowCut,
         pageConfigs.highCut,
-        pageConfigs.trackQuickControls(hostAccess),
+        pageConfigs.inputGain,
+        pageConfigs.inputPhase,
+        // pageConfigs.trackQuickControls(hostAccess),
       ],
     },
 
