@@ -48,9 +48,11 @@ export class ChannelTextManager {
   }
 
   private static translateParameterName(parameterName: string) {
+    console.log(parameterName)
     return (
       {
         // English
+        "Left-Right": "Pan",
         "Pan Left-Right": "Pan",
 
         // German
