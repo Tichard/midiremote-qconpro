@@ -80,10 +80,8 @@ function bindVuMeter(
   let isMeterUnassigned = false;
   vuMeter.mOnProcessValueChange = (context, newValue) => {
     if (!isMeterUnassigned || newValue === 0) {
-      // Apply a log scale twice to make the meters look more like Cubase's MixConsole meters
-      const meterLevel = Math.ceil(
-        (1 + Math.log10(0.1 + 0.9 * (1 + Math.log10(0.1 + 0.9 * newValue)))) * 0xe - 0.25,
-      );
+      // Cubase sends dB power value. Sqrt to convert to dB linear, then scale it to 0xe.
+      const meterLevel = Math.ceil(Math.sqrt(newValue) * 0xe);
 
       sendLevel(context, meterLevel);
     }
