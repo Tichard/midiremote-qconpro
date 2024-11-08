@@ -110,7 +110,6 @@ export function bindControlSection(
       globalState.isValueDisplayModeActive.toggle(context);
     }
   };
-
   page
     .makeValueBinding(
       buttons.display.mSurfaceValue,
@@ -127,7 +126,12 @@ export function bindControlSection(
     .makeCommandBinding(
       controlSectionElements.buttons.timeMode.mSurfaceValue,
       'Transport', 'Exchange Time Formats',
-    )
+    ).setSubPage(regularSubPage);
+  page
+    .makeCommandBinding(
+      controlSectionElements.buttons.timeMode.mSurfaceValue,
+      'Mixer', 'Show/Hide Meter Bridge'
+    ).setSubPage(shiftSubPage);
 
   // Function
   for (const [buttonIndex, button] of buttons.function.entries()) {
@@ -199,12 +203,7 @@ export function bindControlSection(
 */
 
   // Marker
-  page
-    .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Next Marker')
-    .setSubPage(regularSubPage);
-  page
-    .makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Transport', 'Locate Previous Marker')
-    .setSubPage(shiftSubPage);
+  page.makeCommandBinding(buttons.utility.marker.mSurfaceValue, 'Project', 'Open Markers');
 
   // Nudge -> Used for Mouse JogWheel
   // page.makeCommandBinding(buttons.utility.nudge.mSurfaceValue, '', '');
