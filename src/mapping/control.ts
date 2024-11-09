@@ -9,9 +9,9 @@ function setShiftableButtonsLedValues(
   context: MR_ActiveDevice,
   value: number,
 ) {
-  const buttons = controlSectionElements.buttons;
 
   // List of button that have a shift function
+  const buttons = controlSectionElements.buttons;
   for (const button of [
     ...buttons.function,
     buttons.automation.touch,
@@ -25,6 +25,9 @@ function setShiftableButtonsLedValues(
   ]) {
     button.setLedValue(context, value);
   }
+
+  // Toggle Solo led to indicate shift layout
+  controlSectionElements.displayLeds.solo.mSurfaceValue.setProcessValue(context, value);
 }
 
 export function bindMouseValueControl(page: MR_FactoryMappingPage, device: MainDevice) {
