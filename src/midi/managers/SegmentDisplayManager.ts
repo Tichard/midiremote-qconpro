@@ -57,11 +57,12 @@ export class SegmentDisplayManager {
     if (timeFormat !== this.lastTimeFormat.get(context)) {
       this.lastTimeFormat.set(context, timeFormat);
 
+      let is_smpte = (this.lastTimeFormat.get(context) === "Seconds")
       for (const device of this.devices) {
         const { smpte: smpteLed, beats: beatsLed } = device.controlSectionElements.displayLeds;
 
-        smpteLed.mSurfaceValue.setProcessValue(context, +/^(?:[\d]+\:){3}[\d]+$/.test(time));
-        beatsLed.mSurfaceValue.setProcessValue(context, +/^(?:[ \d]+\.){2} \d\.[\d ]+$/.test(time));
+        smpteLed.mSurfaceValue.setProcessValue(context, is_smpte? 1 : 0);
+        beatsLed.mSurfaceValue.setProcessValue(context, is_smpte? 0 : 1);
       }
     }
 
