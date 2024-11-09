@@ -139,14 +139,6 @@ export const deviceConfig: DeviceConfig = {
         }),
     );
 
-    const markerButtons = createElements(
-      3,
-      (index) =>
-        new LedButton(surface, {
-          position: [x + 3.5 + index * buttonDistance, 23.5 + buttonRowHeight * 2 - 0.5, 1.8, 0.75],
-        }),
-    );
-
     return {
       width: surfaceWidth,
       channelElements,
