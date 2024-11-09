@@ -58,7 +58,7 @@ Multiple press will cycle through available parameter pages.
 | **Marker** | Open marker menu |  |
 | **Nudge** | Enable mouse control for JogWheel ||
 | **Click** | Enable click | Enable Precount click|
-| **Drop** | Export Mixdown | Open VST Instrument |
+| **Drop** | Export Mixdown ||
 | **Replace** | Save | Save new version |
 | **Solo** | Deactivate All Solo | Deactivate All Mute |
 
