@@ -39,6 +39,12 @@ lifecycleCallbacks.addActivationCallback((context) => {
   console.log("Activating iCON QCONPRo MidiRemote v" + SCRIPT_VERSION);
 });
 
+
+lifecycleCallbacks.addDeactivationCallback((context) => {
+  console.log("Deactivating iCON QCONPRo MidiRemote v" + SCRIPT_VERSION);
+});
+
+
 // Bind device elements to MIDI
 const { segmentDisplayManager } = bindDevicesToMidi(devices, globalState, lifecycleCallbacks);
 
