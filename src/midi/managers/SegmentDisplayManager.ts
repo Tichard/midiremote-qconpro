@@ -57,12 +57,11 @@ export class SegmentDisplayManager {
     if (timeFormat !== this.lastTimeFormat.get(context)) {
       this.lastTimeFormat.set(context, timeFormat);
 
-      let is_smpte = (this.lastTimeFormat.get(context) === "Seconds")
       for (const device of this.devices) {
         const { smpte: smpteLed, beats: beatsLed } = device.controlSectionElements.displayLeds;
-
-        smpteLed.mSurfaceValue.setProcessValue(context, is_smpte? 1 : 0);
-        beatsLed.mSurfaceValue.setProcessValue(context, is_smpte? 0 : 1);
+        // displayLeds are mutually exclusive. Only last one set to 1 is lit.
+        smpteLed.mSurfaceValue.setProcessValue(context, +(timeFormat === "Seconds")); // SMPTE LED
+        beatsLed.mSurfaceValue.setProcessValue(context, +(timeFormat === "Bars+Beats")); // Beats LED
       }
     }
 
@@ -94,6 +93,16 @@ export class SegmentDisplayManager {
     for (let i = this.segmentValues.length - 2; i < this.segmentValues.length; i++) {
       this.updateSegment(context, i, null);
     }
+  }
+
+  initTime(context: MR_ActiveDevice, time: string, timeFormat: string) {
+    for (const device of this.devices) {
+      const output = device.ports.output;
+      output.sendNoteOn(context, 0x71,  +(timeFormat === "Seconds")); // SMPTE LED
+      output.sendNoteOn(context, 0x72,  +(timeFormat === "Bars+Beats")); // Beats LED
+    }
+
+    this.updateTime(context, time, timeFormat);
   }
 
   clearTime(context: MR_ActiveDevice) {

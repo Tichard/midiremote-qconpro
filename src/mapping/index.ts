@@ -108,7 +108,7 @@ export function makeHostMapping(
     isDriverActivated.set(context, true);
 
     const { time, timeFormat } = initialTransportLocatorPosition.get(context);
-    segmentDisplayManager.updateTime(context, time, timeFormat);
+    segmentDisplayManager.initTime(context, time, timeFormat);
   });
 
   // Time display – once for all devices; individual devices are handled by the
@@ -121,7 +121,6 @@ export function makeHostMapping(
   ) => {
     if (!isDriverActivated.get(context)) {
       initialTransportLocatorPosition.set(context, { time, timeFormat });
-      segmentDisplayManager.updateTime(context, time, timeFormat);
     } else {
       segmentDisplayManager.updateTime(context, time, timeFormat);
     }
