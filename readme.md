@@ -64,7 +64,7 @@ Multiple press will cycle through available parameter pages.
 
 ### Miscellaneous
 <ol>
-<li>Endoder press while in Assigment / Pan page will toggle Monitor (See resetPanOnEncoderPush).</li>
+<li>Endoder press while in Assigment / Pan page will reset panning (See resetPanOnEncoderPush).</li>
 <li>Zoom with JogWheel option has be removed.</li>
 </ol>
 
