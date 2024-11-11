@@ -68,8 +68,12 @@ Multiple press will cycle through available parameter pages.
 <li>Zoom with JogWheel option has be removed.</li>
 </ol>
 
+## Cubase API reference
 
+https://steinbergmedia.github.io/midiremote_api_doc/
 
-## Cubase command bindings reference
+## Troubleshooting
 
-https://steinbergmedia.github.io/midiremote_api_doc/examples/commandbindings/
+If this script has an erratic behavior (this may happen after editing a lot the binding on the go and refreshing while Cubase is running), rename the script.
+Cubase seems to have a cache somewhere (other than the "User Settings" next to the install directory) that keeps data about the mapping,
+and if it gets messed up, changing the name will make Cubase starts clean.

@@ -1,6 +1,6 @@
 /**
  * @vendor iCON
- * @device QConPro
+ * @device QCon Pro
  */
 
 import { ChannelSurfaceElements, DeviceConfig } from ".";

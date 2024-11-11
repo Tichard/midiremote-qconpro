@@ -32,8 +32,11 @@ const devices = readdirSync(deviceConfigsDir)
   }))
   .filter(({ vendor, device }) => vendor && device)
   .map(({ deviceConfigFilename, vendor, device }) => {
-    const vendorFolder = vendor;
-    const deviceFolder = device.replace(/^X-Touch$/, "xtouch"); // for setup instructions backwards compatibility
+    const vendorFolder = slugify(vendor, { decamelize: false });
+    const deviceFolder = slugify(
+      device.replace(/^X-Touch$/, "xtouch"), // for setup instructions backwards compatibility
+      { decamelize: false },
+    );
 
     return {
       deviceConfigFilename,
