@@ -52,6 +52,7 @@ export class LcdManager {
   }
 
   clearDisplays(context: MR_ActiveDevice) {
-    this.sendText(context, 56, LcdManager.makeSpaces(112));
+    this.sendText(context, 56, LcdManager.makeSpaces(56));
+    this.sendText(context,  0, LcdManager.makeSpaces(56));
   }
 }
