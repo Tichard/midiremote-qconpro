@@ -47,6 +47,55 @@ export class ChannelTextManager {
     return abbreviate(input, { length: ChannelTextManager.channelWidth });
   }
 
+  /**
+   * Most value will have too much precision, so pre-abbreviate the value so it stays readable
+   * within `LcdManager.channelWidth` characters.
+   */
+  private static FormatParameterName(parameterName: string) {
+    if (parameterName.includes('EQ ')) // Cubase encoder EQ
+    {
+      // Remove EQ from the name and add the EQ ID at the end
+      parameterName = parameterName.split('EQ ')[1]
+      let eq = parameterName.split(' ')
+      parameterName =  eq[1] + eq[0]
+    }
+    return parameterName;
+  }
+
+  /**
+   * Most values will have too much precision, so pre-abbreviate the value so it stays readable
+   * within `LcdManager.channelWidth` characters.
+   */
+  private static FormatParameterValue(parameterValue: string) {
+    if (parameterValue.length < ChannelTextManager.channelWidth) {
+      return parameterValue;
+    }
+    if (parameterValue.includes('Hz'))
+    {
+      let value = Number(parameterValue.split('Hz')[0])
+      if (value > 10000)
+      {
+        value =  Math.round(value/100) / 10;
+        let int = Math.floor(value);
+        let dec = Math.floor(10* (value - int));
+        parameterValue = int + 'k' + dec + 'Hz';
+      }
+      else if (value > 100)
+      {
+        parameterValue = Math.round(value) + 'Hz';
+      }
+    }
+    else if (parameterValue.includes('dB'))
+    {
+      let value = Number(parameterValue.split('dB')[0])
+      if (Math.abs(value) > 10)
+      {
+        parameterValue = Math.round(value) + 'dB';
+      }
+    }
+    return parameterValue;
+  }
+
   private static translateParameterName(parameterName: string) {
     return (
       {
@@ -165,7 +214,9 @@ export class ChannelTextManager {
       ChannelTextManager.centerString(
         ChannelTextManager.abbreviateString(
           ChannelTextManager.stripNonAsciiCharacters(
-            ChannelTextManager.translateParameterName(name),
+            ChannelTextManager.FormatParameterName(
+              ChannelTextManager.translateParameterName(name),
+            ),
           ),
         ),
       ),
@@ -195,7 +246,11 @@ export class ChannelTextManager {
     this.parameterValue.set(
       context,
       ChannelTextManager.centerString(
-        ChannelTextManager.abbreviateString(ChannelTextManager.stripNonAsciiCharacters(value)),
+        ChannelTextManager.abbreviateString(
+          ChannelTextManager.stripNonAsciiCharacters(
+            ChannelTextManager.FormatParameterValue(value),
+          ),
+        ),
       ),
     );
     this.isLocalValueModeActive.set(context, true);
@@ -215,7 +270,11 @@ export class ChannelTextManager {
   setChannelName(context: MR_ActiveDevice, name: string) {
     this.channelName.set(
       context,
-      ChannelTextManager.abbreviateString(ChannelTextManager.stripNonAsciiCharacters(name)),
+      ChannelTextManager.centerString(
+        ChannelTextManager.abbreviateString(
+          ChannelTextManager.stripNonAsciiCharacters(name)
+        ),
+      ),
     );
     this.updateTrackTitleDisplay(context);
   }
