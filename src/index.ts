@@ -27,7 +27,7 @@ const driver = midiremoteApi.makeDeviceDriver(VENDOR_NAME, DEVICE_NAME, "MidiRem
 const surface = driver.mSurface;
 
 const globalState = createGlobalState();
-const page = driver.mMapping.makePage("controls");
+const page = driver.mMapping.makePage("map");
 const timerUtils = makeTimerUtils(driver, page, surface);
 
 // Create devices, i.e., midi ports, managers, and surface elements for each physical device

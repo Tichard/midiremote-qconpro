@@ -1,4 +1,5 @@
 
+@DEL  /S /Q  "Z:\git\midiremote-qconpro\dist\*
 call npm run build
 ECHO:
 ECHO Installing script to Cubase directory...

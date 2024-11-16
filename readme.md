@@ -55,12 +55,23 @@ Multiple press will cycle through available parameter pages.
 
 | MCU button label | Parameter  | Shift Parameter |
 | --- | --- | --- |
-| **Marker** | Open marker menu |  |
+| **Marker** | Open marker menu ||
 | **Nudge** | Enable mouse control for JogWheel ||
 | **Click** | Enable click | Enable Precount click|
 | **Drop** | Export Mixdown ||
 | **Replace** | Save | Save new version |
 | **Solo** | Deactivate All Solo | Deactivate All Mute |
+
+### Transport
+
+| MCU button label | Parameter  | Shift Parameter |
+| --- | --- | --- |
+| **Rewind** | Rewind | Go to Zero |
+| **Loop** | Cycle active ||
+| **FastForward** | Forward | Go to End |
+| **Rec** | Record ||
+| **Play** | Play ||
+| **Stop** | Stop ||
 
 ### Miscellaneous
 <ol>
